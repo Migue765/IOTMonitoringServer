@@ -13,7 +13,7 @@
 // Alto de la pantalla (en pixeles)
 #define SCREEN_HEIGHT 64
 // Pin del sensor de temperatura y humedad
-#define DHTPIN 2
+#define DHTPIN 4
 // Tipo de sensor de temperatura y humedad
 #define DHTTYPE DHT11
 // Intervalo en segundo de las mediciones
