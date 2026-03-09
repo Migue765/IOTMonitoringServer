@@ -119,6 +119,9 @@ def create_data(
     '''
     if time is None:
         time = timezone.now()
+    elif time.tzinfo is None:
+        # Por si time llega naive (p. ej. desde otro hilo o código legacy)
+        time = timezone.make_aware(time)
 
     base_time = datetime(time.year, time.month, time.day,
                          time.hour, tzinfo=time.tzinfo)
