@@ -42,7 +42,7 @@ const char pass[] = "#1Sol.Rocky"; // TODO: contraseña
 
 // Conexión a Mosquitto
 #define USER "pe.perez" // TODO Reemplace UsuarioMQTT por un usuario (no administrador) que haya creado en la configuración del bróker de MQTT.
-const char MQTT_HOST[] = "18.208.171.240"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
+const char MQTT_HOST[] = "3.92.139.241"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
 const int MQTT_PORT = 8082;
 const char MQTT_USER[] = USER;
 // Contraseña de MQTT
