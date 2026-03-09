@@ -1,10 +1,10 @@
-from datetime import datetime
 from . import utils
 import json
 import os
 import ssl
 import paho.mqtt.client as mqtt
 from django.conf import settings
+from django.utils import timezone
 
 
 def on_message(client: mqtt.Client, userdata, message: mqtt.MQTTMessage):
@@ -24,7 +24,7 @@ def on_message(client: mqtt.Client, userdata, message: mqtt.MQTTMessage):
     A partir de esos datos almacena la medición en el sistema.
     '''
     try:
-        time = datetime.now()
+        time = timezone.now()
         payload = message.payload.decode("utf-8")
         print("payload: " + payload)
         payloadJson = json.loads(payload)
