@@ -229,16 +229,16 @@ void displayMeasures() {
 
 /**
  * Agrega el mensaje indicado a la pantalla.
- * Para alertas largas (ej. "ALERT temperatura 18 30") usa tamaño 1 para que quepa.
  */
 void displayMessage(String message) {
   display.setTextSize(1);
   display.println("\nMsg:");
+  display.setTextSize(2);
   if (message.equals("OK")) {
-    display.setTextSize(2);
     display.println("    " + message);
   } else {
-    display.setTextSize(1);
+    display.println("");
+    display.println("");
     display.println(message);
   }
 }
@@ -273,18 +273,16 @@ String checkAlert() {
  * Función que se ejecuta cuando llega un mensaje a la suscripción MQTT.
  */
 void receivedCallback(char* topic, byte* payload, unsigned int length) {
-  String data = "";
-  for (unsigned int i = 0; i < length; i++) {
-    data += String((char)payload[i]);
-  }
   Serial.print("Received [");
   Serial.print(topic);
   Serial.print("]: ");
-  Serial.println(data);
+  String data = "";
+  for (int i = 0; i < length; i++) {
+    data += String((char)payload[i]);
+  }
+  Serial.print(data);
   if (data.indexOf("ALERT") >= 0) {
     alert = data;
-    alertTime = millis();  // Inicia el tiempo de 60 s desde que llega la alerta
-    Serial.println(">> ALERTA mostrada en pantalla");
   }
 }
 
