@@ -1,0 +1,97 @@
+[
+  {
+    "datasource": {
+      "type": "postgres",
+      "uid": "${Database}"
+    },
+    "fieldConfig": {
+      "defaults": {
+        "color": { "fixedColor": "#FADE2A", "mode": "fixed" },
+        "custom": {
+          "axisLabel": "",
+          "axisPlacement": "auto",
+          "barAlignment": 0,
+          "drawStyle": "line",
+          "fillOpacity": 0,
+          "gradientMode": "none",
+          "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+          "lineInterpolation": "linear",
+          "lineWidth": 1,
+          "pointSize": 5,
+          "scaleDistribution": { "type": "linear" },
+          "showPoints": "auto",
+          "spanNulls": false,
+          "stacking": { "group": "A", "mode": "none" },
+          "thresholdsStyle": { "mode": "off" }
+        },
+        "mappings": [],
+        "thresholds": { "mode": "absolute", "steps": [{ "color": "#FADE2A", "value": null }, { "color": "red", "value": 80 }] },
+        "unit": "percent"
+      },
+      "overrides": []
+    },
+    "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 },
+    "id": 19,
+    "options": {
+      "legend": { "calcs": [], "displayMode": "list", "placement": "bottom" },
+      "tooltip": { "mode": "single", "sort": "none" }
+    },
+    "targets": [
+      {
+        "datasource": { "type": "postgres", "uid": "${Database}" },
+        "format": "time_series",
+        "rawQuery": true,
+        "rawSql": "WITH\n  time_p AS (SELECT d.time, t.idx as index, t.time + cast(extract(epoch from d.base_time) as integer) as tiempo FROM receiver_data as d LEFT JOIN UNNEST(d.times) WITH ORDINALITY AS t(time, idx) ON TRUE WHERE d.measurement_id = 3),\n  value_p AS (SELECT d.time, v.idx as index, v.value as valor FROM receiver_data as d LEFT JOIN UNNEST(d.values) WITH ORDINALITY AS v(value, idx) ON TRUE WHERE d.measurement_id = 3)\nSELECT t.tiempo as time, v.valor as luminosidad FROM time_p t LEFT JOIN value_p v on (t.time = v.time AND t.index = v.index) ORDER BY time;",
+        "refId": "D"
+      }
+    ],
+    "title": "Luminosidad histórica",
+    "type": "timeseries"
+  },
+  {
+    "datasource": {
+      "type": "postgres",
+      "uid": "${Database}"
+    },
+    "description": "Último valor recibido de luminosidad (0-100 %)",
+    "fieldConfig": {
+      "defaults": {
+        "color": { "mode": "thresholds" },
+        "mappings": [],
+        "max": 100,
+        "min": 0,
+        "thresholds": {
+          "mode": "absolute",
+          "steps": [
+            { "color": "dark-blue", "value": null },
+            { "color": "yellow", "value": 20 },
+            { "color": "green", "value": 50 },
+            { "color": "red", "value": 90 }
+          ]
+        },
+        "unit": "percent"
+      },
+      "overrides": []
+    },
+    "gridPos": { "h": 8, "w": 12, "x": 12, "y": 24 },
+    "id": 20,
+    "options": {
+      "orientation": "auto",
+      "reduceOptions": { "calcs": ["lastNotNull"], "fields": "/.*/", "values": false },
+      "showThresholdLabels": true,
+      "showThresholdMarkers": true
+    },
+    "targets": [
+      {
+        "datasource": { "type": "postgres", "uid": "${Database}" },
+        "format": "table",
+        "rawQuery": true,
+        "rawSql": "WITH\n  time_p AS (SELECT d.time, t.idx as index, t.time + cast(extract(epoch from d.base_time) as integer) as tiempo FROM receiver_data as d LEFT JOIN UNNEST(d.times) WITH ORDINALITY AS t(time, idx) ON TRUE WHERE d.measurement_id = 3),\n  value_p AS (SELECT d.time, v.idx as index, v.value as valor FROM receiver_data as d LEFT JOIN UNNEST(d.values) WITH ORDINALITY AS v(value, idx) ON TRUE WHERE d.measurement_id = 3)\nSELECT v.valor as luminosidad FROM time_p t LEFT JOIN value_p v on (t.time = v.time AND t.index = v.index) ORDER BY t.tiempo;",
+        "refId": "C"
+      }
+    ],
+    "title": "Luminosidad actual",
+    "transparent": true,
+    "type": "gauge"
+  }
+]
