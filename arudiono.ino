@@ -36,9 +36,9 @@ PubSubClient client(net);
 
 // WiFi (ESP32 solo soporta redes 2.4 GHz, no 5 GHz)
 // Nombre exacto de la red WiFi (sensible a mayúsculas y espacios)
-const char ssid[] = "Lucy"; // TODO: nombre exacto de tu red
+const char ssid[] = "504"; // TODO: nombre exacto de tu red
 // Contraseña de la red WiFi
-const char pass[] = "#1Sol.Rocky"; // TODO: contraseña
+const char pass[] = "1515151515"; // TODO: contraseña
 
 // Conexión a Mosquitto
 #define USER "pe.perez" // TODO Reemplace UsuarioMQTT por un usuario (no administrador) que haya creado en la configuración del bróker de MQTT.
