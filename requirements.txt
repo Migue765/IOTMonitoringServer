@@ -1,0 +1,11 @@
+# Compatible con PostgreSQL 12 (Django 4.2 LTS soporta PG 12+).
+# Si en la EC2 tienes Django 5.x, reinstala con: pip3 install -r requirements.txt
+Django==4.2.18
+psycopg2-binary
+paho-mqtt
+requests
+python-dateutil
+django-crispy-forms
+crispy-bootstrap4==2022.1
+schedule
+asgiref
